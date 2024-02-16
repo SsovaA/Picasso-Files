@@ -6,7 +6,7 @@ from PIL import Image
 @shared_task()
 def file_process_task(file_id):
     try:
-        file = File.objects.get(pk=file_id)
+        file = File.objects.get(id=file_id)
     except:
         print (f'File ID: {file_id} not found')
         return

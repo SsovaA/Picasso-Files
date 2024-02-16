@@ -55,9 +55,8 @@ class UploadAPIView(APIView):
         serializer = UploadSerializer(data=request.data)
         if serializer.is_valid():
             file = serializer.save()
-            file_process_task.delay(file.id)
-            
             file_serializer = FileSerializer(file)
+            file_process_task.delay(file.id)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

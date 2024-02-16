@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
-
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
     def get_schema(self, request=None, public=False):
@@ -25,7 +25,7 @@ schema_view = get_schema_view(
     ),
     generator_class=BothHttpAndHttpsSchemaGenerator,
     public=True,
-    #permission_classes=(AllowAny,),
+    permission_classes=(AllowAny,),
 )
 
 # Смена заголовка админки
