@@ -1,6 +1,7 @@
 from .serializers import *
 from .paginations import *
 from .tasks import file_process_task
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
@@ -22,6 +23,20 @@ class FilesAPIView(APIView):
         serializer = FileSerializer(files, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class OneFileAPIView(APIView):
+    parser_classes = (JSONParser,)
+    permission_classes = (AllowAny,)
+
+    @swagger_auto_schema(
+        operation_description='Получить один файл по id',
+        responses={200: FileSerializer(many=False)} 
+    )
+    def get(self, request, pk):
+        
+        files = get_object_or_404(File, pk=pk)
+        serializer = FileSerializer(files, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class PaginatedFilesAPIView(APIView, PaginationHandlerMixin):
     parser_classes = (JSONParser,)
     permission_classes = (AllowAny,)
