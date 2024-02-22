@@ -22,7 +22,7 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A picasso_files worker -l info
+    command: celery -A file_processing worker -l info
     volumes:
       - ./:/app
     environment:
@@ -34,7 +34,7 @@ services:
 
   flower:
     build: ./
-    command: celery -A picasso_files flower
+    command: celery -A file_processing flower
     volumes:
       - ./:/app
     ports:
